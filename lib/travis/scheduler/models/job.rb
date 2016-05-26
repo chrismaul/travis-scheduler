@@ -50,9 +50,10 @@ class Job < ActiveRecord::Base
   end
 
   def encrypted_env_removed?
+    Travis.logger.info("config=#{config}")
     !(secure_env?) &&
     [:env, :global_env].any? do |key|
-      config.has_key?(key).tap {|obj| Travis.logger.info("config[#{key}]=#{obj}")} &&
+      config.has_key?(key)&&
       config[key].any? do |var|
         var.is_a?(Hash) && var.has_key?(:secure)
       end
