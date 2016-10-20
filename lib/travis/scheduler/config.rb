@@ -20,8 +20,12 @@ module Travis
               redis:      { url: 'redis://localhost:6379' },
               sentry:     { },
               sidekiq:    { namespace: 'sidekiq', pool_size: 3, log_level: :warn },
+              site:       ENV['TRAVIS_SITE'] || 'org',
               ssl:        { },
-              ping:       { interval: 5 * 60 }
+              ping:       { interval: 5 * 60 },
+              job_board:  { url: ENV['JOB_BOARD_URL'] || 'https://job-board.travis-ci.org', auth: ENV['JOB_BOARD_AUTH'] || 'user:pass' }
+
+
 
       def metrics
         # TODO fix keychain?

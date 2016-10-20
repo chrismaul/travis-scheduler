@@ -1,5 +1,4 @@
 require 'redis'
-require 'travis'
 require 'travis/amqp'
 require 'travis/exceptions'
 require 'travis/logger'
@@ -11,6 +10,7 @@ require 'travis/scheduler/service'
 require 'travis/scheduler/support/features'
 require 'travis/scheduler/support/sidekiq'
 require 'travis/scheduler/worker'
+require 'travis/service'
 require 'travis/support/branch_validator' # TODO move to gatekeeper
 require 'travis/support/database'
 
