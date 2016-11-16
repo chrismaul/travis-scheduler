@@ -1,3 +1,5 @@
+require 'travis/scheduler/model/update_count'
+
 module Travis
   module Scheduler
     module Service
@@ -27,11 +29,19 @@ module Travis
           end
 
           def notify
-            async :notify, job: { id: job.id }, jid: jid
+            async :notify, job: { id: job.id }, meta: meta, jid: jid
           end
 
           def repo
             job.repository
+          end
+
+          def meta
+            { state_update_count: counter.count }
+          end
+
+          def counter
+            @counter ||= Model::UpdateCount.new(job, redis)
           end
 
           def jid

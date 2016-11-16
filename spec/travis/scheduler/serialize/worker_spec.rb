@@ -12,7 +12,8 @@ describe Travis::Scheduler::Serialize::Worker do
   let(:commit)    { FactoryGirl.create(:commit, request: request, ref: ref) }
   let(:repo)      { FactoryGirl.create(:repo, default_branch: 'branch') }
   let(:owner)     { repo.owner }
-  let(:data)      { described_class.new(job, config).data }
+  let(:data)      { described_class.new(job, meta, config).data }
+  let(:meta)      { { state_update_count: 1 } }
   let(:config)    { { cache_settings: { 'builds.gce' => s3 }, github: { source_host: 'github.com', api_url: 'https://api.github.com' } } }
   let(:s3)        { { access_key_id: 'ACCESS_KEY_ID', secret_access_key: 'SECRET_ACCESS_KEY', bucket_name: 'bucket' } }
   let(:event)     { 'push' }
@@ -86,7 +87,10 @@ describe Travis::Scheduler::Serialize::Worker do
           hard_limit: 180 * 60, # worker handles timeouts in seconds
           log_silence: 20 * 60
         },
-        cache_settings: s3
+        cache_settings: s3,
+        meta: {
+          state_update_count: 1
+        }
       )
     end
   end
@@ -175,7 +179,10 @@ describe Travis::Scheduler::Serialize::Worker do
           hard_limit: 180 * 60, # worker handles timeouts in seconds
           log_silence: 20 * 60
         },
-        cache_settings: s3
+        cache_settings: s3,
+        meta: {
+          state_update_count: 1
+        }
       )
     end
 

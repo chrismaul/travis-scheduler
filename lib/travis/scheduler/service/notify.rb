@@ -34,7 +34,7 @@ module Travis
           end
 
           def worker_payload
-            deep_clean(Serialize::Worker.new(job, config).data)
+            deep_clean(Serialize::Worker.new(job, meta, config).data)
           end
           time :worker_payload
 
@@ -53,6 +53,10 @@ module Travis
 
           def amqp
             Amqp::Publisher.new(job.queue)
+          end
+
+          def meta
+            data[:meta] || {}
           end
 
           def jid
